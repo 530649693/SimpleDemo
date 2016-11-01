@@ -1,0 +1,28 @@
+import java.util.concurrent.TimeUnit;
+
+//后台线程 守护进程
+//后台线程指在程序运行时在后台提供的一种通用的服务线程，当所有非后台线程结束时，
+//程序也就终止。也就是说，只要有任何非后台线程在，程序就不会终止，main就是非后台线程。
+public class SimpleDemo implements Runnable {
+
+	public void run() {
+		try {
+			while (true) {
+				TimeUnit.MILLISECONDS.sleep(500);
+				System.out.println(Thread.currentThread() + " " + this);
+			}
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	public static void main(String[] args) throws Exception{
+		for (int i = 0; i < 10; i++) {
+			Thread daemon = new Thread(new SimpleDemo());
+			daemon.setDaemon(true);	//在线程启动之前设置为后台线程
+			daemon.start();
+		}
+		System.out.println("all daemon started");
+		TimeUnit.MILLISECONDS.sleep(560);
+	}
+}
